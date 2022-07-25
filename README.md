@@ -4,7 +4,9 @@ In this repo, you'll find a structure template for terraform files used to creat
 <br>
 As for now, the Heroku project only contain an base app and a database integration
 <br>
-In order to use this as template, you need to specify a <i>terraform.tfvars</i> file for some variables. As for now, those are...
+In order to use this as template, you need to specify a <i>terraform.tfvars</i> file for some variables. 
+<br>
+As for now, those are...
     heroku_develop_app
     heroku_develop_database
     heroku_region
