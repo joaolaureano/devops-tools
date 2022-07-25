@@ -8,7 +8,9 @@ In order to use this as template, you need to specify a <i>terraform.tfvars</i> 
 <br>
 As for now, those are...
 <br>
+```
     heroku_develop_app
     heroku_develop_database
     heroku_region
     heroku_app_buildpacks
+```
