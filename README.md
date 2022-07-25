@@ -14,3 +14,4 @@ As for now, those are...
     heroku_region
     heroku_app_buildpacks
 ```
+After specifying it, you need to use <i>terraform apply </i> command.
