@@ -1,6 +1,6 @@
 # DevOps Tools
 
-This repository was created to study and ensharpen my DEVOPS skills, such as automation and pipeline
+This **repository** was created to study and ensharpen my DEVOPS skills, such as automation and pipeline
 
 ## Tools being used
 ### Terraform
