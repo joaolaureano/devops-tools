@@ -1,0 +1,49 @@
+name: Heroku Deploy
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+jobs:
+  test:
+    name: Application Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+        name: Install dependencies
+      - run: npm install
+        name: Test and coverage
+      - run: npx jest ./test/** --testPathIgnorePatterns "./test/integration"
+  sonarcloud:
+    # needs: test
+    name: SonarCloud Analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  deploy:
+    # needs: sonarcloud
+    name: Heroku Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+          heroku_email: ${{secrets.HEROKU_ACCOUNT_EMAIL}}
+          justlogin: true
+
+      - name: Check if logged in
+        run: heroku auth:whoami
+      - name: Add Heroku remote
+        run: heroku git:remote --app=${{ secrets.HEROKU_APP_NAME }}
+
+      - name: Push to master branch app on Heroku
+        run: git pull origin ${{ github.ref_name }} &&        git filter-branch -- --all &&         git fetch --all --unshallow &&        git push heroku ${{ github.ref_name }}:master --force
+        
